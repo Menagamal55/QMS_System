@@ -110,7 +110,6 @@ The app includes a notification system to enhance user experience:
 
 ```
 lib/
-│── ؤ/        
 │── Core/     
 │── data/
      
@@ -167,7 +166,7 @@ Feel free to fork the repo and submit a pull request.
 
 ## 👩‍💻 Author
 
-Developed by **Mena Gamal**
+Developed by **Menna Gamal**
 
 ---
 
