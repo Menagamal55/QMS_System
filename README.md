@@ -65,7 +65,8 @@ A modern mobile application built with **Flutter** that allows users to book, ma
 
 ## 🎥 Demo
 
-![Demo](assets/images/demo.gif)
+![Demo] 
+(https://github.com/user-attachments/assets/91d3c707-4a24-4d02-ba61-93213192c005)
 
 ---
 
