@@ -1,6 +1,5 @@
-// lib/features/auth/data/datasources/auth_remote_datasource.dart
 
-import 'package:dio/dio.dart'; // تأكدي إنك ضايفة الـ import ده
+import 'package:dio/dio.dart'; 
 import 'package:sw2project/core/base_usecase/Api%20constants.dart';
 import 'package:sw2project/core/base_usecase/Exceptions%20.dart';
 import 'package:sw2project/features/auth/data/User%20model%20.dart';
@@ -51,10 +50,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      // هنا بقى هنصطاد إيرور السيرفر الحقيقي
+      
       String errorMessage = "حدث خطأ غير معروف";
       if (e.response != null && e.response?.data != null) {
-         // الداتا اللي راجعة من السيرفر (نسرين)
+        
         print("====== SERVER ERROR (LOGIN) ======");
         print(e.response?.data); 
         print("==================================");
