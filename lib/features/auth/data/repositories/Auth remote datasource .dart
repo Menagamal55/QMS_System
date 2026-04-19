@@ -95,11 +95,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         statusCode: response.statusCode,
       );
     } on DioException catch (e) {
-      // هنا بنقرا الإيرور الحقيقي بتاع الـ Register
+      
       String errorMessage = "حدث خطأ غير معروف";
       if (e.response != null && e.response?.data != null) {
         print("====== SERVER ERROR (REGISTER) ======");
-        print(e.response?.data); // السطر ده هيفضح المشكلة!
+        print(e.response?.data); 
         print("=====================================");
         errorMessage = e.response?.data.toString() ?? e.message.toString();
       }
