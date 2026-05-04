@@ -26,32 +26,30 @@ class CardServices extends StatelessWidget {
             body: SafeArea(
               child: Column(
                 children: [
-            // 1. Header (Book Your Queue Number)
-            Container(
-              padding: const EdgeInsets.only(top: 10, bottom: 25, left: 8, right: 24),
-              decoration: const BoxDecoration(
-                color: AppColor.primaryHeader,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(25), 
-                  bottomRight: Radius.circular(25),
-                ),
-              ),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 22),
-                        onPressed: () => Navigator.pop(context),
+                  Container(
+                    padding: const EdgeInsets.only(top: 10, bottom: 25, left: 8, right: 24),
+                    decoration: const BoxDecoration(
+                      color: AppColor.primaryHeader,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(25),
+                        bottomRight: Radius.circular(25),
                       ),
-                      const Icon(Icons.confirmation_num_outlined, color: Colors.white, size: 28),
-                      const Gap(10),
-                      const Text(
-                        "Book Your Queue Number",
-                        style: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                    ),
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white, size: 22),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        const Icon(Icons.confirmation_num_outlined, color: Colors.white, size: 28),
+                        const Gap(10),
+                        const Text(
+                          "Book Your Queue Number",
+                          style: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-
                   Expanded(
                     child: ListView(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -69,8 +67,7 @@ class CardServices extends StatelessWidget {
                           iconData: Icons.location_on_rounded,
                           isActive: false,
                         ),
-                  const Gap(25),
-                  
+                        const Gap(25),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Row(
@@ -79,13 +76,17 @@ class CardServices extends StatelessWidget {
                                 color: const Color(0xFF4DB6AC),
                                 icon: Icons.people_outline,
                                 label: "People\nWaiting:",
-                                value: state is QueueStatusSuccess ? '${state.status['peopleWaiting'] ?? state.status['queueLength'] ?? '-'}' : '-',
+                                value: state is QueueStatusSuccess
+                                    ? '${state.status['peopleWaiting'] ?? state.status['queueLength'] ?? '-'}'
+                                    : '-',
                               ),
                               _buildStatBox(
                                 color: const Color(0xFF3B7D91),
                                 icon: Icons.access_time,
                                 label: "Estimated",
-                                value: state is QueueStatusSuccess ? '${state.status['estimatedTime'] ?? state.status['avgWaitTime'] ?? '-'} min' : '- min',
+                                value: state is QueueStatusSuccess
+                                    ? '${state.status['estimatedTime'] ?? state.status['avgWaitTime'] ?? '-'} min'
+                                    : '- min',
                               ),
                             ],
                           ),
@@ -98,13 +99,14 @@ class CardServices extends StatelessWidget {
                                 estTime: "${state.ticket.peopleWaiting * 3} min",
                               )
                             : const TicketWidget(ticketNumber: "----", peopleBefore: 0, estTime: "-- min"),
-                  
                         const Gap(25),
                         SizedBox(
                           width: double.infinity,
                           height: 58,
                           child: ElevatedButton(
-                            onPressed: isLoading ? null : () => context.read<CustomerCubit>().bookTicket(serviceId),
+                            onPressed: isLoading
+                                ? null
+                                : () => context.read<CustomerCubit>().bookTicket(serviceId),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF2397C3),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -112,30 +114,38 @@ class CardServices extends StatelessWidget {
                             ),
                             child: isLoading
                                 ? const CircularProgressIndicator(color: Colors.white)
-                                : const Text("Book & Track Queue", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                                : const Text(
+                                    "Book & Track Queue",
+                                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
                           ),
                         ),
                         if (state is CustomerError)
                           Padding(
                             padding: const EdgeInsets.only(top: 12),
-                            child: Text(state.message, style: const TextStyle(color: Colors.red, fontSize: 13), textAlign: TextAlign.center),
+                            child: Text(
+                              state.message,
+                              style: const TextStyle(color: Colors.red, fontSize: 13),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                       ],
                     ),
                   ),
                 ],
               ),
-            );
-          },
-        ),
-      );
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildSelectionCard({
-    required String label, 
-    required String value, 
-    required IconData iconData, 
-    required bool isActive
+    required String label,
+    required String value,
+    required IconData iconData,
+    required bool isActive,
   }) {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -171,10 +181,10 @@ class CardServices extends StatelessWidget {
   }
 
   Widget _buildStatBox({
-    required Color color, 
-    required IconData icon, 
-    required String label, 
-    required String value
+    required Color color,
+    required IconData icon,
+    required String label,
+    required String value,
   }) {
     return Expanded(
       child: Container(
