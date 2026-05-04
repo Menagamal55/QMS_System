@@ -71,6 +71,7 @@ flutter:
     - assets/images/
     - assets/images/bookservice/
     - assets/images/icons/
+    - assets/onbording/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

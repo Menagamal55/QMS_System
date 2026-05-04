@@ -1,4 +1,3 @@
-// domain/entities/ticket_entity.dart
 class TicketEntity {
   final String ticketNumber;
   final int peopleWaiting;

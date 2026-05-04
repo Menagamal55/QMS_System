@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-// كارت اختيار الخدمة أو الفرع
 class SelectionCard extends StatelessWidget {
   final IconData icon;
   final String label;

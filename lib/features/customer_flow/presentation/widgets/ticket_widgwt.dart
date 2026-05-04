@@ -30,7 +30,7 @@ class TicketWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // الجزء العلوي (Ticket Header)
+
           Row(
             children: [
               const Expanded(child: Divider()),
@@ -55,11 +55,9 @@ class TicketWidget extends StatelessWidget {
           ),
           const Gap(15),
 
-          // الخط المنقط الأول
           _buildDashedLine(),
           const Gap(15),
 
-          // رقم التذكرة
           Text(
             ticketNumber,
             style: const TextStyle(
@@ -71,11 +69,9 @@ class TicketWidget extends StatelessWidget {
 
           const Gap(15),
 
-          // الخط المنقط الثاني
           _buildDashedLine(),
           const Gap(20),
 
-          // البيانات السفلية والـ QR Code
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -113,7 +109,6 @@ class TicketWidget extends StatelessWidget {
     );
   }
 
-  // ويدجت الخط المنقط
   Widget _buildDashedLine() {
     return Row(
       children: List.generate(

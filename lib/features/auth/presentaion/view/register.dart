@@ -19,10 +19,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   
-  // المتغير ده عشان نشغل بيه زرار العين (نخفي ونظهر الباسورد)
   bool isPasswordHidden = true;
 
-  // نفس الألوان اللي استخدمناها في اللوجين عشان الـ Theme يكون واحد
   final Color primaryBlue = const Color(0xFF2398C3);
   final Color darkText = const Color(0xFF003B5C);
 
@@ -48,7 +46,6 @@ class _RegisterPageState extends State<RegisterPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message), backgroundColor: Colors.green),
             );
-            // يرجع لصفحة اللوجين بعد التسجيل الناجح
             Navigator.pop(context); 
           }
         },
@@ -63,7 +60,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // 1. اللوجو
                       Center(
                         child: Image.asset(
                           'assets/images/splash.png',
@@ -73,7 +69,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 20),
 
-                      // 2. حقل الاسم (Name)
                       Text(
                         "Name",
                         style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.bold),
@@ -99,7 +94,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 20),
 
-                      // 3. حقل الإيميل (Email)
                       Text(
                         "Email",
                         style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.bold),
@@ -125,7 +119,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 20),
 
-                      // 4. حقل الباسورد (Password)
                       Text(
                         "Password",
                         style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.bold),
@@ -133,12 +126,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: passwordController,
-                        obscureText: isPasswordHidden, // مربوطة بالمتغير عشان تخفي وتظهر
+                        obscureText: isPasswordHidden,
                         validator: (value) => value!.isEmpty ? "Required" : null,
                         decoration: InputDecoration(
                           hintText: "Enter Your Password",
                           hintStyle: const TextStyle(color: Colors.grey),
-                          // زرار العين
+
                           suffixIcon: IconButton(
                             icon: Icon(
                               isPasswordHidden ? Icons.visibility_outlined : Icons.visibility_off_outlined,
@@ -163,7 +156,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 30),
 
-                      // 5. زرار التسجيل
                       ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
@@ -192,11 +184,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(height: 25),
 
-                      // خط رفيع أزرق (زي اللي في الصورة)
                       Divider(color: primaryBlue, thickness: 0.5, indent: 20, endIndent: 20),
                       const SizedBox(height: 20),
 
-                      // 6. روابط تسجيل الدخول (اللي كانت ناقصة)
                       Column(
                         children: [
                           Text(

@@ -1,4 +1,3 @@
-// features/customer_flow/presentation/manager/customer_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sw2project/features/customer_flow/domain/repositories/customerflow_repository.dart';
 import 'customer_state.dart';
@@ -14,7 +13,7 @@ class CustomerCubit extends Cubit<CustomerState> {
       await repository.addService(serviceId);
       await getMyTicket();
     } catch (e) {
-      emit(CustomerError("فشل في حجز الخدمة: ${e.toString()}"));
+      emit(CustomerError("error in booking ticket ${e.toString()}"));
     }
   }
 
@@ -23,7 +22,7 @@ class CustomerCubit extends Cubit<CustomerState> {
       final ticket = await repository.getMyTicket();
       emit(CustomerSuccess(ticket));
     } catch (e) {
-      emit(CustomerError("فشل في جلب بيانات التذكرة"));
+      emit(CustomerError("error in fetching ticket data ${e.toString()}"));
     }
   }
 
@@ -32,7 +31,7 @@ class CustomerCubit extends Cubit<CustomerState> {
       final status = await repository.getQueueStatus();
       emit(QueueStatusSuccess(status));
     } catch (e) {
-      emit(CustomerError(" Eroor "));
+      emit(CustomerError("error in fetching queue status ${e.toString()}"));
     }
   }
 }

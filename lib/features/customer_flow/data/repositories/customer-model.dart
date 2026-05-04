@@ -1,4 +1,3 @@
-// data/models/ticket_model.dart
 import 'package:sw2project/features/customer_flow/domain/usecase/userintity.dart';
 
 class TicketModel extends TicketEntity {

@@ -1,5 +1,3 @@
-// lib/features/auth/presentation/bloc/auth_state.dart
-
 
 import 'package:equatable/equatable.dart';
 import 'package:sw2project/features/auth/domain/User%20entity%20.dart';

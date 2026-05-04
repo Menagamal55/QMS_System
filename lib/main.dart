@@ -4,8 +4,12 @@ import 'package:sw2project/core/routs/app_routs.dart';
 import 'package:sw2project/core/utils/colors.dart';
 import 'package:sw2project/features/customer_flow/presentation/choose_service.dart';
 import 'package:sw2project/features/customer_flow/presentation/screens/Withdrawal.dart';
+import 'package:sw2project/features/customer_flow/presentation/screens/booking_successfully.dart';
+import 'package:sw2project/features/staff%20flow/presentation/screens/Queue%20Management.dart';
 import 'package:sw2project/features/staff%20flow/presentation/screens/dashboard_screen.dart';
+import 'package:sw2project/features/staff%20flow/staff/presentaion/staff_home.dart';
 import 'package:sw2project/injection_container.dart';
+import 'package:sw2project/onbording.dart';
 
 import 'features/customer_flow/presentation/book_your_queue_number.dart';
 
@@ -35,9 +39,9 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Roboto',
         
       ),
-     home: ChooseServiceScreen(),
-      // initialRoute: AppRoutes.splash,  
-      // routes: AppRoutes.getRoutes(),   
+   
+      initialRoute: AppRoutes.splash,  
+      routes: AppRoutes.routes,   
     );
   }
 }

@@ -1,4 +1,3 @@
-// domain/repositories/customer_repository.dart
 import 'package:sw2project/features/customer_flow/domain/usecase/userintity.dart';
 
 abstract class CustomerRepository {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sw2project/core/utils/asset.dart';
 import 'package:sw2project/core/utils/colors.dart';
 import 'package:sw2project/features/customer_flow/presentation/widgets/images.dart';
-// التأكد من أن المسار هنا صحيح حسب مكان ملف التيكت الجديد
+
 import 'package:sw2project/features/customer_flow/presentation/widgets/ticket_widgwt.dart'; 
 
 class BookQueueScreen extends StatelessWidget {
@@ -10,7 +10,7 @@ class BookQueueScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // استقبال اسم الخدمة المبعوث من شاشة الاختيار
+
     final String serviceName = ModalRoute.of(context)?.settings.arguments as String? ?? "Deposit";
 
     return Scaffold(
@@ -90,7 +90,6 @@ class BookQueueScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   
-                  // 5. The Shared Ticket Widget (استخدام الويدجت اللي في فايل لوحده)
                   const TicketWidget(
                     ticketNumber: "B104",
                     peopleBefore: 5,
@@ -105,7 +104,7 @@ class BookQueueScreen extends StatelessWidget {
                     height: 58,
                     child: ElevatedButton(
                       onPressed: () {
-                        // أضيفي هنا الانتقال لصفحة التتبع لو موجودة
+
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2397C3),
@@ -128,7 +127,7 @@ class BookQueueScreen extends StatelessWidget {
     );
   }
 
-  // ميثود مساعدة لبناء كروت الاختيار
+
   Widget _buildSelectionCard({
     required String label, 
     required String value, 
@@ -161,7 +160,6 @@ class BookQueueScreen extends StatelessWidget {
     );
   }
 
-  // ميثود مساعدة لبناء مربعات الإحصائيات
   Widget _buildStatItem({
     required Color color, 
     required IconData icon, 

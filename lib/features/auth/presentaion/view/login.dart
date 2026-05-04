@@ -85,7 +85,6 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 24),
 
-                      // 3. حقل الباسورد
                       const Text(
                         "Password",
                         style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.bold),
@@ -93,7 +92,7 @@ class LoginPage extends StatelessWidget {
                       const SizedBox(height: 8),
                       TextFormField(
                         controller: passwordController,
-                        obscureText: true, // عشان يخفي الباسورد
+                        obscureText: true, 
                         validator: (value) => value!.isEmpty ? "Required" : null,
                         decoration: InputDecoration(
                           hintText: "Enter Your Password",
@@ -111,7 +110,6 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 40),
 
-                      // 4. زرار Log in
                       ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
@@ -139,11 +137,9 @@ class LoginPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
 
-                      // خط رفيع أزرق (زي اللي في الصورة تحت الزرار بشوية)
                       const Divider(color: primaryBlue, thickness: 0.5, indent: 20, endIndent: 20),
                       const SizedBox(height: 30),
 
-                      // 5. روابط التسجيل تحت بعض متسنترين
                       Column(
                         children: [
                           const Text(

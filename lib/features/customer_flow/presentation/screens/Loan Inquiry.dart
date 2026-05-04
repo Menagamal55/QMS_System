@@ -1,86 +1,96 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:get_it/get_it.dart';
+import 'package:sw2project/features/customer_flow/presentation/bloc/cubit.dart';
+import 'package:sw2project/features/customer_flow/presentation/bloc/customer_state.dart';
 
 class Loan_inquiry extends StatelessWidget {
   const Loan_inquiry({super.key});
 
+  static const int serviceId = 5;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFD6E6E8), // لون الخلفية الفاتح الموحد
-      body: SafeArea(
-        child: Column(
-          children: [
-            // 1. Header مع سهم الرجوع
-            _buildHeader(context),
+    return BlocProvider(
+      create: (_) => GetIt.instance<CustomerCubit>()
+        ..getMyTicket()
+        ..getQueueStatus(),
+      child: BlocBuilder<CustomerCubit, CustomerState>(
+        builder: (context, state) {
+          final ticketNumber = state is CustomerSuccess ? state.ticket.ticketNumber : '----';
+          final peopleBefore = state is CustomerSuccess ? state.ticket.peopleWaiting : 0;
+          final estTime = state is CustomerSuccess ? '${peopleBefore * 3} min' : '-- min';
+          final queueLength = state is QueueStatusSuccess
+              ? '${state.status['peopleWaiting'] ?? state.status['queueLength'] ?? '-'}'
+              : '-';
+          final isLoading = state is CustomerLoading;
 
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(20),
+          return Scaffold(
+            backgroundColor: const Color(0xFFD6E6E8),
+            body: SafeArea(
+              child: Column(
                 children: [
-                  // 2. Your Number Card (التصميم المتدرج العلوي)
-                  _buildYourNumberCard("B104"),
-                  
-                  const Gap(20),
-
-                  // 3. Now Serving Section
-                  _buildNowServingSection(
-                    currentNumber: "B099",
-                    waitingList: ["B099", "B100", "B101", "B102", "B103"],
+                  _buildHeader(context),
+                  Expanded(
+                    child: ListView(
+                      padding: const EdgeInsets.all(20),
+                      children: [
+                        _buildYourNumberCard(ticketNumber),
+                        const Gap(20),
+                        _buildNowServingSection(
+                          queueLength: queueLength,
+                        ),
+                        const Gap(20),
+                        _buildDetailedStatsCard(
+                          peopleBefore: peopleBefore,
+                          waitTime: estTime,
+                        ),
+                        const Gap(30),
+                        _buildRefreshButton(context, isLoading),
+                        if (state is CustomerError)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: Text(
+                              state.message,
+                              style: const TextStyle(color: Colors.red, fontSize: 13),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-
-                  const Gap(20),
-
-                  // 4. Statistics Card (People & Time)
-                  _buildDetailedStatsCard(
-                    peopleBefore: 5,
-                    waitTime: "12 min",
-                  ),
-
-                  const Gap(30),
-
-                  // 5. Refresh Button
-                  _buildRefreshButton(),
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  // --- Widgets البناء ---
-
-  // الهيدر مع سهم الرجوع في جهة اليسار
   Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(top: 15, bottom: 10, left: 10, right: 20),
       child: Row(
         children: [
-          // سهم الرجوع
           IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFF3B7D91), size: 22),
-            onPressed: () => Navigator.pop(context), 
+            onPressed: () => Navigator.pop(context),
           ),
-          const Spacer(flex: 1), 
+          const Spacer(flex: 1),
           const Icon(Icons.confirmation_num_outlined, color: Color(0xFF3B7D91), size: 28),
           const Gap(10),
           const Text(
             "Queue Status",
-            style: TextStyle(
-              color: Color(0xFF3B7D91),
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(color: Color(0xFF3B7D91), fontSize: 22, fontWeight: FontWeight.bold),
           ),
-          const Spacer(flex: 2), // لموازنة المسافة ليبقى النص في المنتصف
+          const Spacer(flex: 2),
         ],
       ),
     );
   }
 
-  // كارت رقم المستخدم بتصميم التدرج
   Widget _buildYourNumberCard(String number) {
     return Container(
       width: double.infinity,
@@ -108,17 +118,13 @@ class Loan_inquiry extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Text(
               number,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF3B7D91),
-                fontSize: 45,
-                fontWeight: FontWeight.w900,
-              ),
+              style: const TextStyle(color: Color(0xFF3B7D91), fontSize: 45, fontWeight: FontWeight.w900),
             ),
           ),
         ],
@@ -126,8 +132,7 @@ class Loan_inquiry extends StatelessWidget {
     );
   }
 
-  // قسم الخدمة الحالية وقائمة الانتظار
-  Widget _buildNowServingSection({required String currentNumber, required List<String> waitingList}) {
+  Widget _buildNowServingSection({required String queueLength}) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -138,7 +143,7 @@ class Loan_inquiry extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Now Serving",
+            "Queue Status",
             style: TextStyle(color: Color(0xFF3B7D91), fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const Gap(15),
@@ -149,38 +154,16 @@ class Loan_inquiry extends StatelessWidget {
               color: const Color(0xFFE0F2F1),
               borderRadius: BorderRadius.circular(15),
             ),
-            child: Text(
-              currentNumber,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Color(0xFF00796B), fontSize: 35, fontWeight: FontWeight.w900),
-            ),
-          ),
-          const Gap(20),
-          // شريط الأرقام المنتظرة
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF1F8F9),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: waitingList.map((num) {
-                bool isServing = num == currentNumber;
-                return Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: isServing 
-                      ? BoxDecoration(color: const Color(0xFF14A3B4), borderRadius: BorderRadius.circular(20))
-                      : null,
-                  child: Text(
-                    num,
-                    style: TextStyle(
-                      color: isServing ? Colors.white : Colors.blueGrey,
-                      fontWeight: isServing ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                );
-              }).toList(),
+            child: Column(
+              children: [
+                const Text("People in Queue", style: TextStyle(color: Colors.blueGrey, fontSize: 14)),
+                const Gap(6),
+                Text(
+                  queueLength,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Color(0xFF00796B), fontSize: 35, fontWeight: FontWeight.w900),
+                ),
+              ],
             ),
           ),
         ],
@@ -188,7 +171,6 @@ class Loan_inquiry extends StatelessWidget {
     );
   }
 
-  // كارت الإحصائيات (الأشخاص والوقت)
   Widget _buildDetailedStatsCard({required int peopleBefore, required String waitTime}) {
     return Container(
       padding: const EdgeInsets.all(5),
@@ -221,15 +203,21 @@ class Loan_inquiry extends StatelessWidget {
     );
   }
 
-  Widget _buildRefreshButton() {
+  Widget _buildRefreshButton(BuildContext context, bool isLoading) {
     return SizedBox(
       width: double.infinity,
       height: 58,
       child: ElevatedButton.icon(
-        onPressed: () {
-          // يمكن إضافة منطق التحديث هنا
-        },
-        icon: const Icon(Icons.refresh_rounded, color: Colors.white, size: 28),
+        onPressed: isLoading
+            ? null
+            : () {
+                context.read<CustomerCubit>()
+                  ..getMyTicket()
+                  ..getQueueStatus();
+              },
+        icon: isLoading
+            ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+            : const Icon(Icons.refresh_rounded, color: Colors.white, size: 28),
         label: const Text("Refresh", style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF2397C3),

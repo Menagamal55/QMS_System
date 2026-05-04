@@ -32,12 +32,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ),
     );
 
-    // التعديل هنا: خلينا الدوال جوه الـ fold تشتغل بـ async
     await result.fold(
       (failure) async => emit(AuthFailure(message: failure.message)),
       (user) async {
-        // 🚀 حفظ التوكن والرول في الجهاز 🚀
-        // (تأكدي إن كلمة token و role مطابقة للي مكتوبين جوه الـ User Entity بتاعك)
         await CacheHelper.saveData(key: 'token', value: user.token);
         await CacheHelper.saveData(key: 'role', value: user.role);
 
